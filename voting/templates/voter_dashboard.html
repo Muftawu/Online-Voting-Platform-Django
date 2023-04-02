@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %} Voter Dashboard {% endblock title %}
+
+{% block content %}
+
+<h2 style="text-align: center; margin-top: 5px;">Voter Dashboard</h2>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success" role="alert" style="text-align: center;"><h5 class="animate__animated animate__slideInDown">{{ message }} </h5> </div> <br>
+{% endfor %}
+{% else %}
+<div class="alert alert-primary" role="alert" style="text-align: center;">
+    You have already voted!
+</div> <br>
+{% endif %}
+
+<h4 style="text-align: center;">Your Votes</h4>
+<br> <br>
+
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col"><h5 style="text-align: center;">Photo</h5></th>
+        <th scope="col"><h5 style="text-align: center;">Position</h5></th>
+        <th scope="col"><h5 style="text-align: center;">Name</h5></th>
+      </tr>
+    </thead>
+
+    {% for vote in my_votes %}
+    <tbody>
+        
+      <tr>
+        <td><img src="{{ vote.candidate.imageURL }}" alt="" class="candidateImage"></td>
+        <td><h5 class="candidateName" style="text-align: center;">{{ vote.position }}</h5></td>
+        <td><h5 class="candidateName" style="text-align: center;">{{ vote.candidate.fullname }}</h5></td>
+      </tr>
+      
+    </tbody>
+    {% endfor %}
+</table>
+
+    
+{% endblock content %}
+    

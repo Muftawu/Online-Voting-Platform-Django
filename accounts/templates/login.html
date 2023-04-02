@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Login {% endblock title %}
+{% block content %}
+
+
+<div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Login Form</span></div>
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            {% if messages %} {% for message in messages %}
+            <div class="pass"><a href="#">{{ message }}</a></div>
+            {% endfor %} {% endif %}
+
+          <div class="row">
+            <i class="fas fa-user"></i>
+            <input type="text" name="username" placeholder="Username" required>
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            <input type="password" name="password" placeholder="Password" required>
+          </div>
+          <div class="pass"><a href="#">Forgot password?</a></div>
+          <div class="row button">
+            <input type="submit" value="Login">
+          </div>
+          <div class="signup-link" style="color:#16a085">Not a member? <a href="{% url 'accounts:sign_up' %}" style="color:#16a085" >Signup now</a></div>
+        </form>
+      </div>
+    </div>
+
+    
+{% endblock content %}
+    

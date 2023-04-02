@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Vote {% endblock title %}
+
+{% block content %}
+
+<h2 style="text-align: center; margin-top: 10px;">Kwame Nkrumah University of Science and Technology</h2> 
+<h2 style="text-align: center; margin-top: 10px;">SRC Election 2023</h2> <br>
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-danger" role="alert" style="text-align: center;"><h5 class="animate__animated animate__shakeX">{{ message }} </h5> </div> <br>
+{% endfor %}
+{% else %}
+<div class="alert alert-primary" role="alert" style="text-align: center;">
+    Select one candidate from each category!
+</div> <br>
+{% endif %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {% for position in positions %}
+    
+    <div class="card" style="background-color: #C9D6FF;">
+        <h4 class="card-header">{{ position }}</h4>
+        <table class="table">
+            {% for candidate in position.candidate_set.all %}
+            <tbody>
+                <tr>
+                <td><img src="{{ candidate.imageURL }}" alt="" class="candidateImage"></td>
+                <td><h4 class="candidateName">{{ candidate.fullname }}</h4></td>
+                <td><input type="radio" name="{{position}}" id="" value="{{candidate.id}}" class="checkbox"></td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table> <br>
+    </div> <br> <br>
+    
+    {% endfor %}
+
+    <center>
+        <button type="submit" class="btn btn-primary" style="margin-right: auto;">Submit Vote</button>
+    </center>
+
+</form>
+
+<br> <br>
+{% endblock content %}
+    

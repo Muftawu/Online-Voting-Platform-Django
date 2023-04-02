@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Admin Dashboard {% endblock title %}
+
+{% block content %}
+<br>
+
+<h2 style="text-align: center; margin-top: 5px;">Survote Admin Dashboard</h2> <br>
+<h4 style="text-align: center">Voting Statistics</h4>
+<br>
+<hr>
+<div style="display: inline-flex; flex-wrap: wrap; text-align: center; align-items: center; justify-content: space-evenly">
+    <div class="card text-bg-info mb-3" style="max-width: 18rem; margin: 30px; width: 300px; height: 200px;">
+        <div class="card-header"><h5>Positions</h5></div>
+        <div class="card-body"> <br>
+          <h1 class="card-title">{{position_total}}</h1>
+        </div>
+      </div>
+    
+      <div class="card text-bg-info mb-3" style="max-width: 18rem; margin: 30px; width: 300px; height: 200px;">
+        <div class="card-header"><h5>Candidates</h5></div>
+        <div class="card-body"> <br>
+          <h1 class="card-title">{{candidate_total}}</h1>
+        </div>
+      </div>
+
+      <div class="card text-bg-info mb-3" style="max-width: 18rem; margin: 30px; width: 300px; height: 200px;">
+        <div class="card-header"><h5>Number of Voters</h5></div>
+        <div class="card-body"> <br>
+            <h1 class="card-title">{{voters_total}}</h1>
+        </div>
+    </div>
+
+    <div class="card text-bg-info mb-3" style="max-width: 18rem; margin: 30px; width: 300px; height: 200px;">
+        <div class="card-header"><h5>Number of Voted Voters</h5></div>
+        <div class="card-body"> <br>
+            <h1 class="card-title">{{voted_voters_total}}</h1>
+        </div>
+    </div>
+
+    <div class="card text-bg-info mb-3" style="max-width: 18rem; margin: 30px; width: 300px; height: 200px;">
+        <div class="card-header"><h5>Voter</h5></div>
+        <div class="card-body"> <br>
+          <h1 class="card-title">{{voted_voters_total}}</h1>
+        </div>
+    </div>
+
+</div>
+  
+  <hr>
+    <center>
+       
+        <br> <br>
+        <h2>Ballot Charts</h2> <br> 
+        <div class="card">
+            <h5 class="card-header">President</h5>
+            <div class="card-body">
+            <div>
+                <canvas id="chart-president"></canvas>
+            </div>
+            </div>
+          </div> <br> <br> <br>
+
+          <div class="card">
+            <h5 class="card-header">Financial Secretary</h5>
+            <div class="card-body">
+            <div>
+                <canvas id="chart-financial"></canvas>
+            </div>
+            </div>
+          </div> <br> <br> <br>
+
+          <div class="card">
+            <h5 class="card-header">Women Commissioner</h5>
+            <div class="card-body">
+            <div>
+                <canvas id="chart-commissioner"></canvas>
+            </div>
+            </div>
+          </div> <br> <br> <br>
+
+    </center>
+
+    <script>
+        
+const chart_president = document.getElementById('chart-president');
+          
+    new Chart(chart_president, {
+        type: 'bar',
+        data: {
+        labels: [{% for candidate in presidential_candidates.get_candidate %} '{{candidate.fullname}}', {% endfor %} ],
+        datasets: [{
+            label: '{{position_list|first}}',
+            data: [{% for candidate in presidential_candidates.get_candidate %} {{candidate.polls}}, {% endfor %}],
+            borderWidth: 2,
+        }]
+        },
+        options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+                barThickness: 2,
+                maxBarThickness: 5,
+                barPercentage: 0.2
+            }]
+        }
+        }
+    });
+      
+const chart_financial = document.getElementById('chart-financial');
+
+    new Chart(chart_financial, {
+        type: 'bar',
+        data: {
+        labels: [{% for candidate in financial_candidates.get_candidate %} '{{candidate.fullname}}', {% endfor %}],
+        datasets: [{
+            label: 'Financial Secretary',
+            data: [{% for candidate in financial_candidates.get_candidate %} {{candidate.polls}}, {% endfor %}],
+            borderWidth: 2,
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+});
+
+      
+const chart_commissioner = document.getElementById('chart-commissioner');
+
+    new Chart(chart_commissioner, {
+        type: 'bar',
+        data: {
+        labels: [{% for candidate in women_commissioner_candidates.get_candidate %} '{{candidate.fullname}}', {% endfor %}],
+        datasets: [{
+            label: '{{position_list|last}}',
+            data: [{% for candidate in women_commissioner_candidates.get_candidate %} {{candidate.polls}}, {% endfor %}],
+            borderWidth: 2,
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+});
+      
+      
+    </script>
+
+{% endblock content %}
+    
