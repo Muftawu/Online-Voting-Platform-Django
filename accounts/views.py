@@ -9,7 +9,7 @@ from voting.models import Voter
 def login_page(request):
     if request.user.is_authenticated:
         if request.user.user_type == '1':
-            return redirect(reverse('adminDashboard'))
+            return redirect(reverse('administrators:admin_dashboard'))
         else:
             return redirect(reverse('voting:vote'))
 
@@ -21,9 +21,11 @@ def login_page(request):
 
         if user is not None:
             login(request, user)
-            print(f'{user} logged in')
+            try:
+                print(f'{user} logged in')
+            except:
+                pass 
             if request.user.user_type == '1':
-                # return redirect(reverse('adminDashboard'))
                 return redirect(reverse('administrators:admin_dashboard'))
             else:
                 return redirect(reverse('voting:vote'))
